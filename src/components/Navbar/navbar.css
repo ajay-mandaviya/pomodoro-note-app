@@ -1,0 +1,34 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #5348c7;
+  padding: 0.5rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-title {
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-page {
+  cursor: pointer;
+  margin-left: 2.4rem;
+  margin-top: 1.4rem;
+  color: white;
+}
+.login-btn {
+  padding: 0.3rem 2rem;
+  background-color: white;
+  border: none;
+  font-size: 1rem;
+}
+
+.login-btn:hover {
+  color: #5348c7;
+}
