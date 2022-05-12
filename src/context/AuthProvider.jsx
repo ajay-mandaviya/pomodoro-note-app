@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const user_note = JSON.parse(localStorage.getItem("user"));
+    const user_note = JSON.parse(localStorage.getItem("user_note"));
     user_note?.token &&
       dispatchAuth({
         type: SET_TOKEN,

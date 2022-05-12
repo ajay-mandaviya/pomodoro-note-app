@@ -1,0 +1,11 @@
+.ql-toolbar.ql-snow {
+  border: none;
+  padding: 2px;
+}
+.ql-editor {
+  max-height: 150px;
+}
+
+.ql-container.ql-snow {
+  border: none;
+}
