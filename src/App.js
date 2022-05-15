@@ -1,11 +1,38 @@
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Navbar, Sidebar } from "./components";
+import { useAuth, useNotes } from "./context";
 import { Archive, Home, Label, Login, Notes, Signup, Trash } from "./page";
+import { getUserNotes } from "./services/notes";
 
 function App() {
+  const {
+    authUser: { token },
+  } = useAuth();
+  const { dispatchNote } = useNotes();
+
+  useEffect(() => {
+    if (token) {
+      getUserNotes(token, dispatchNote);
+    }
+  }, [token]);
+
   return (
     <>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        }}
+      />
       <div className="app">
         <Navbar />
         <div className="app-wrapper">

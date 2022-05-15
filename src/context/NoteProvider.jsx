@@ -9,16 +9,18 @@ const NoteProvider = ({ children }) => {
     noteTitle: "",
     tag: [],
     content: "<p><br></p>",
-    bgColor: "#FFFFF",
-    priority: { Low: "1" },
+    bgColor: "#F5F5F5",
+    priority: { low: "1" },
     lable: "",
   };
   const [textEditorVisible, settextEditorVisible] = useState(false);
   const [initalInput, setInitialInput] = useState(initalFormValues);
+  const [isNoteEditing, setIsNoteEditing] = useState(false);
   const [noteState, dispatchNote] = useReducer(noteReducer, {
     notes: [],
     archives: [],
     trash: [],
+    isColorPalleteVisible: false,
   });
 
   return (
@@ -30,6 +32,9 @@ const NoteProvider = ({ children }) => {
         settextEditorVisible,
         initalInput,
         setInitialInput,
+        isNoteEditing,
+        setIsNoteEditing,
+        initalFormValues,
       }}
     >
       {children}

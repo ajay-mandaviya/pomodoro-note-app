@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalTextEditor, Sidebar, TextEditor } from "../../components";
+import { ColorPallete, ModalTextEditor, NoteCard } from "../../components";
 import { useNotes } from "../../context";
 import "./note.css";
 
@@ -9,11 +9,20 @@ const Notes = () => {
     noteState: { notes },
   } = useNotes();
 
-  console.log("NOTES", notes);
-
   return (
     <div className="notes-page-container">
-      {/* <div className="notes"></div> */}
+      {notes.length === 0 ? (
+        <p>Note's are not avaible</p>
+      ) : (
+        notes.map((note, index) => {
+          return (
+            <div key={note._id}>
+              <NoteCard note={note} />
+            </div>
+          );
+        })
+      )}
+      {/* <ColorPallete /> */}
       {textEditorVisible && <ModalTextEditor />}
     </div>
   );

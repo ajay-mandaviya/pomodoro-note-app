@@ -1,14 +1,20 @@
 import axios from "axios";
 import { SET_NOTES } from "../constant/actionTypes";
-
-export const getUserNotes = async (token, dispatch) => {
+import toast from "react-hot-toast";
+export const getUserNotes = async (token, dispatchNote) => {
   try {
     const response = await axios.get("/api/notes", {
       headers: { authorization: token },
     });
-    console.log("response is  ", response);
+    if (response.status === 201 || 200) {
+      dispatchNote({
+        type: SET_NOTES,
+        payload: response.data.notes,
+      });
+    }
   } catch (error) {
     console.log("error while get user NOtes", error);
+    toast.error("Some thing went wrong");
   }
 };
 
@@ -32,16 +38,18 @@ export const addNotes = async (note, token, dispatchNote, callBack) => {
         payload: response.data.notes,
       });
       callBack && callBack(response.status);
+      toast.success("Note add SuccessFully");
     }
   } catch (error) {
     console.log("error while add notes", error);
+    toast.error("Some thing went wrong");
   }
 };
 
-export const editNotes = async (note, token, dispatch) => {
+export const editNotes = async (token, note, dispatchNote, callBack) => {
   try {
     const response = await axios.post(
-      `/api/notes/${id}`,
+      `/api/notes/${note._id}`,
       { note },
       {
         headers: {
@@ -49,8 +57,16 @@ export const editNotes = async (note, token, dispatch) => {
         },
       }
     );
-    console.log("response", response);
+
+    if (response.status === 201 || 200) {
+      dispatchNote({
+        type: SET_NOTES,
+        payload: response.data.notes,
+      });
+      callBack && callBack(response.status);
+    }
   } catch (error) {
-    console.log("error while edit notes", notes);
+    console.log("error while edit notes", error);
+    toast.error("Some thing went wrong");
   }
 };

@@ -7,6 +7,7 @@
   left: 0;
   z-index: 10;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -34,12 +35,16 @@
   justify-content: space-between;
   margin: 8px;
   align-items: center;
+  position: relative;
 }
 .editor-option i:nth-child(1) {
   margin-right: 0.75rem;
 }
 .editor-option i:nth-child(2) {
   margin-left: 1rem;
+}
+.editor-action {
+  position: relative;
 }
 .editor-action button {
   border: none;
@@ -53,4 +58,13 @@
   background-color: gray;
   width: 4rem;
   border-radius: 0.2rem;
+}
+.note-colorpallete-wrapper {
+  position: relative;
+  left: -100px;
+}
+
+.priorityfield-wrapper {
+  position: relative;
+  left: -100px;
 }

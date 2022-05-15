@@ -6,7 +6,7 @@ const Navbar = () => {
   const {
     authUser: { token },
   } = useAuth();
-  const { settextEditorVisible } = useNotes();
+  const { settextEditorVisible, setIsNoteEditing } = useNotes();
   const navigate = useNavigate();
   return (
     <div className="navbar">
@@ -33,6 +33,7 @@ const Navbar = () => {
         <button
           onClick={() => {
             settextEditorVisible(true);
+            setIsNoteEditing(true);
           }}
           className="more-btn"
         >
