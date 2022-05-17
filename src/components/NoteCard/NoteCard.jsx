@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNotes } from "../../context";
+import { useAuth, useNotes, useTransh } from "../../context";
+import { addNoteToTransh } from "../../services";
+import { isArrayExits } from "../../utils/arrayMethod";
 import ColorPallete from "../ColorPallete/ColorPallete";
 import PriorityField from "../PriorityFieldModal/PriorityField";
 import "./notecard.css";
@@ -9,13 +11,25 @@ const NoteCard = ({ note }) => {
   const [priorityVisible, setPriorityVisible] = useState(false);
   const colordRef = useRef();
   const priorityRef = useRef();
-  const { setInitialInput, setIsNoteEditing, settextEditorVisible } =
-    useNotes();
+  const {
+    authUser: { token },
+  } = useAuth();
+  const {
+    setInitialInput,
+    setIsNoteEditing,
+    settextEditorVisible,
+    dispatchNote,
+    noteState: { trash },
+  } = useNotes();
+  const isInTrash = isArrayExits(trash, note._id);
   const handleOpeEditNote = () => {
+    if (isInTrash) return;
     setInitialInput(note);
     settextEditorVisible(true);
     setIsNoteEditing(true);
   };
+
+  const { deleteTrashNote, restoreNoteTrash } = useTransh();
 
   useEffect(() => {
     const handleOutSideClick = (e) => {
@@ -33,6 +47,8 @@ const NoteCard = ({ note }) => {
     };
   }, [paleteVisible]);
 
+  console.log("isInTrash", isInTrash);
+
   const getPriorityBgColor = (priority) => {
     switch (priority) {
       case "low":
@@ -46,6 +62,13 @@ const NoteCard = ({ note }) => {
     }
   };
 
+  const handleTransh = (e) => {
+    e.stopPropagation();
+    if (token) {
+      addNoteToTransh(token, note, dispatchNote);
+    } else {
+    }
+  };
   return (
     <>
       <div
@@ -84,24 +107,46 @@ const NoteCard = ({ note }) => {
         <div className="note-card-action">
           <div>{note.createdTime}</div>
           <div className="note-icons">
-            <i
-              onClick={(e) => {
-                e.stopPropagation();
-                setPriorityVisible(false);
-                setPaleteVisible(!paleteVisible);
-              }}
-              className="fa-solid fa-palette"
-            ></i>
-            <i
-              className="fa-solid fa-chart-bar"
-              onClick={(e) => {
-                e.stopPropagation();
-                setPaleteVisible(false);
-                setPriorityVisible(!priorityVisible);
-              }}
-            ></i>
-            <i className="fa-solid fa-trash"></i>
-            <i className="fa-solid fa-circle-arrow-down"></i>
+            {!isInTrash && (
+              <i
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPriorityVisible(false);
+                  setPaleteVisible(!paleteVisible);
+                }}
+                className="fa-solid fa-palette"
+              ></i>
+            )}
+            {!isInTrash && (
+              <i
+                className="fa-solid fa-chart-bar"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPaleteVisible(false);
+                  setPriorityVisible(!priorityVisible);
+                }}
+              ></i>
+            )}
+            {isInTrash ? (
+              <i
+                class="fa-solid fa-trash-arrow-up"
+                onClick={(e) => restoreNoteTrash(e, note)}
+              ></i>
+            ) : (
+              <i
+                className="fa-solid fa-trash "
+                onClick={(e) => handleTransh(e)}
+              ></i>
+            )}
+            {!isInTrash && <i className="fa-solid fa-circle-arrow-down"></i>}
+            {isInTrash && (
+              <i
+                class="fa-solid fa-trash-can delete-transh"
+                onClick={(e) => {
+                  deleteTrashNote(e, note);
+                }}
+              ></i>
+            )}
           </div>
         </div>
       </div>
