@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useAuth, useNotes, useTransh } from "../../context";
+import { useArchive, useAuth, useNotes, useTransh } from "../../context";
 import { addNoteToTransh } from "../../services";
 import { isArrayExits } from "../../utils/arrayMethod";
 import ColorPallete from "../ColorPallete/ColorPallete";
 import PriorityField from "../PriorityFieldModal/PriorityField";
 import "./notecard.css";
-
+import toast from "react-hot-toast";
 const NoteCard = ({ note }) => {
-  const [paleteVisible, setPaleteVisible] = useState(false);
-  const [priorityVisible, setPriorityVisible] = useState(false);
   const colordRef = useRef();
   const priorityRef = useRef();
+  const [paleteVisible, setPaleteVisible] = useState(false);
+  const [priorityVisible, setPriorityVisible] = useState(false);
+  const { deleteTrashNote, restoreNoteTrash } = useTransh();
+
   const {
     authUser: { token },
   } = useAuth();
@@ -19,17 +21,17 @@ const NoteCard = ({ note }) => {
     setIsNoteEditing,
     settextEditorVisible,
     dispatchNote,
-    noteState: { trash },
+    noteState: { trash, archives },
   } = useNotes();
+  const { addArchiveNote, restoreArchive, trashArchive } = useArchive();
   const isInTrash = isArrayExits(trash, note._id);
+  const isInArchive = isArrayExits(archives, note._id);
   const handleOpeEditNote = () => {
     if (isInTrash) return;
     setInitialInput(note);
     settextEditorVisible(true);
     setIsNoteEditing(true);
   };
-
-  const { deleteTrashNote, restoreNoteTrash } = useTransh();
 
   useEffect(() => {
     const handleOutSideClick = (e) => {
@@ -47,8 +49,6 @@ const NoteCard = ({ note }) => {
     };
   }, [paleteVisible]);
 
-  console.log("isInTrash", isInTrash);
-
   const getPriorityBgColor = (priority) => {
     switch (priority) {
       case "low":
@@ -63,12 +63,37 @@ const NoteCard = ({ note }) => {
   };
 
   const handleTransh = (e) => {
+    console.log("transh e", e);
     e.stopPropagation();
     if (token) {
-      addNoteToTransh(token, note, dispatchNote);
+      if (isInArchive) {
+        trashArchive(note);
+      } else {
+        addNoteToTransh(token, note, dispatchNote);
+      }
     } else {
+      toast.error("You are not loggin");
     }
   };
+
+  const handleAddArchive = (e) => {
+    e.stopPropagation();
+    if (token) {
+      addArchiveNote(note);
+    } else {
+      toast.error("You are not loggin");
+    }
+  };
+
+  const handleRestoreArchive = (e) => {
+    e.stopPropagation();
+    if (token) {
+      restoreArchive(note);
+    } else {
+      toast.error("You are not loggin");
+    }
+  };
+
   return (
     <>
       <div
@@ -129,7 +154,7 @@ const NoteCard = ({ note }) => {
             )}
             {isInTrash ? (
               <i
-                class="fa-solid fa-trash-arrow-up"
+                className="fa-solid fa-trash-arrow-up"
                 onClick={(e) => restoreNoteTrash(e, note)}
               ></i>
             ) : (
@@ -138,10 +163,25 @@ const NoteCard = ({ note }) => {
                 onClick={(e) => handleTransh(e)}
               ></i>
             )}
-            {!isInTrash && <i className="fa-solid fa-circle-arrow-down"></i>}
+            {!isInTrash && (
+              <span>
+                {isInArchive ? (
+                  <i
+                    className="fa-solid fa-circle-arrow-up"
+                    onClick={(e) => handleRestoreArchive(e)}
+                  ></i>
+                ) : (
+                  <i
+                    className="fa-solid fa-circle-arrow-down"
+                    onClick={(e) => handleAddArchive(e)}
+                  ></i>
+                )}
+              </span>
+            )}
+
             {isInTrash && (
               <i
-                class="fa-solid fa-trash-can delete-transh"
+                className="fa-solid fa-trash-can delete-transh"
                 onClick={(e) => {
                   deleteTrashNote(e, note);
                 }}
@@ -163,6 +203,3 @@ const NoteCard = ({ note }) => {
 };
 
 export default NoteCard;
-
-//  <i class="fa-solid fa-circle-arrow-up"></i>
-//  <i classNsame="fa-solid fa-trash-can-arrow-up"></i>

@@ -4,6 +4,7 @@ export const SET_USER = "SET_USER";
 export const SET_NOTES = "SET_NOTES";
 export const TOGGLE_COLOR_PALLETE = "TOGGLE_COLOR_PALLETE";
 export const SET_TRASH = "SET_TRASH";
+export const SET_ARCHIVE = "SET_ARCHIVE";
 export const optionColor = [
   {
     id: 111,

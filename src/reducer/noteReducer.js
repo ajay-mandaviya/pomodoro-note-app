@@ -1,8 +1,4 @@
-import {
-  SET_NOTES,
-  SET_TRASH,
-  TOGGLE_COLOR_PALLETE,
-} from "../constant/actionTypes";
+import { SET_ARCHIVE, SET_NOTES, SET_TRASH } from "../constant/actionTypes";
 
 export const noteReducer = (state, action) => {
   switch (action.type) {
@@ -11,10 +7,10 @@ export const noteReducer = (state, action) => {
         ...state,
         notes: action.payload,
       };
-    case TOGGLE_COLOR_PALLETE:
+    case SET_ARCHIVE:
       return {
         ...state,
-        isColorPalleteVisible: action.payload,
+        archives: action.payload,
       };
     case SET_TRASH:
       return {
