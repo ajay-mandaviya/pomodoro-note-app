@@ -32,6 +32,9 @@
   border: none;
   font-size: 1rem;
 }
+.nabar-search{
+  margin: 0 auto;
+}
 
 .login-btn:hover {
   color: #5348c7;
