@@ -5,6 +5,10 @@
   height: 50px;
   background-color: #5348c7;
   padding: 0.5rem;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
 }
 .nav-logo {
   display: flex;
@@ -31,4 +35,29 @@
 
 .login-btn:hover {
   color: #5348c7;
+}
+.navbar input {
+  padding: 0.25rem 0.5rem;
+}
+.btns {
+  align-items: center;
+}
+.filter-btn {
+  border: none;
+  background: transparent;
+  font-size: large;
+  color: white;
+  cursor: pointer;
+}
+.filter-btn i {
+  color: white;
+}
+.more-btn {
+  color: white;
+  border: none;
+  background: transparent;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.5rem 0.3rem;
+  margin-left: 1.5rem;
 }

@@ -1,18 +1,54 @@
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Navbar } from "./components";
-import { Home, Login, Signup } from "./page";
+import { Navbar, Sidebar } from "./components";
+import { useAuth, useNotes } from "./context";
+import { Archive, Home, Label, Login, Notes, Signup, Trash } from "./page";
+import { getUserNotes } from "./services/notes";
 
 function App() {
+  const {
+    authUser: { token },
+  } = useAuth();
+  const { dispatchNote } = useNotes();
+
+  useEffect(() => {
+    if (token) {
+      getUserNotes(token, dispatchNote);
+    }
+  }, [token]);
+
   return (
-    <div>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </div>
+    <>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
+        }}
+      />
+      <div className="app">
+        <Navbar />
+        <div className="app-wrapper">
+          <Sidebar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/archive" element={<Archive />} />
+            <Route path="/trash" element={<Trash />} />
+            <Route path="/label" element={<Label />} />
+          </Routes>
+        </div>
+      </div>
+    </>
   );
 }
 

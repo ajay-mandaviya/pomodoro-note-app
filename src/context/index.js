@@ -1,2 +1,3 @@
 import { AuthProvider, useAuth } from "./AuthProvider";
-export { AuthProvider, useAuth };
+import NoteProvider, { useNotes } from "./NoteProvider";
+export { AuthProvider, useAuth, NoteProvider, useNotes };

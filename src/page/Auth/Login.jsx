@@ -24,6 +24,11 @@ const Login = () => {
 
   const handleUserSignIn = (e) => {
     e.preventDefault();
+    if (user.email === "" || user.password === "") {
+      alert("inputs can't be empty");
+      return;
+    }
+
     handleSignIn(user);
   };
 
