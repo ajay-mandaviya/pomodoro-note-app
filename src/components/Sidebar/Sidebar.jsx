@@ -7,7 +7,7 @@ export const Sidebar = () => {
       <ul>
         <li>
           <NavLink
-            to={"/notes"}
+            to={"/"}
             className={({ isActive }) => (isActive ? "active" : null)}
           >
             <i className="fa-solid fa-house"></i> Home
@@ -38,9 +38,16 @@ export const Sidebar = () => {
           </NavLink>
         </li>
       </ul>
-      <div className="profile-logout">
+      <div
+        className="profile-logout"
+        onClick={() => {
+          localStorage.removeItem("user_note");
+          // window.location.reload();
+          window.location.replace("/");
+        }}
+      >
         <div>
-          <i className="fa-solid fa-circle-user"></i> Admin
+          <i className="fa-solid fa-circle-user"></i> Logout
         </div>
         <i className="fa-solid fa-arrow-right-from-bracket"></i>
       </div>

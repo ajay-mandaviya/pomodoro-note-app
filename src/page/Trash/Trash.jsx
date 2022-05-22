@@ -9,10 +9,10 @@ const Trash = () => {
   console.log("trash", trash);
   return (
     <div className="notes-page-container">
-      {trash.length === 0 ? (
+      {trash?.length === 0 ? (
         <p>Trash Is Empty</p>
       ) : (
-        trash.map((note, index) => {
+        trash?.map((note, index) => {
           return (
             <div key={note._id}>
               <NoteCard note={note} />

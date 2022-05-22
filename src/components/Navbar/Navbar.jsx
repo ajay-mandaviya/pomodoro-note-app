@@ -25,9 +25,7 @@ const Navbar = () => {
     };
   }, [isFilterModalVisible]);
 
-  const {
-    authUser: { token },
-  } = useAuth();
+  // const { authUser } = useAuth();
   const { settextEditorVisible, setIsNoteEditing } = useNotes();
   const navigate = useNavigate();
   return (
@@ -35,9 +33,6 @@ const Navbar = () => {
       <div className="nav-logo">
         <Link to={"/"} className="nav-title">
           <h2>My Notes</h2>
-        </Link>
-        <Link to={"/notes"}>
-          <h3 className="nav-page">Notes</h3>
         </Link>
       </div>
       <div className="nabar-search">
@@ -48,7 +43,7 @@ const Navbar = () => {
           onChange={(e) => setSearchVal(e.target.value)}
         />
       </div>
-      {location.pathname === "/notes" ? (
+      {location.pathname === "/" ? (
         <div className="btns">
           <button
             onClick={() => {

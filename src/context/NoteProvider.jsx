@@ -1,9 +1,8 @@
 import React from "react";
 import { createContext, useContext, useState, useReducer } from "react";
 import { filterReducer, noteReducer } from "../reducer";
-
+import { v4 as uuid } from "uuid";
 const NotesContext = createContext();
-
 const NoteProvider = ({ children }) => {
   const initalFormValues = {
     noteTitle: "",
@@ -12,6 +11,7 @@ const NoteProvider = ({ children }) => {
     bgColor: "#F5F5F5",
     priority: { low: "1" },
     lable: "",
+    _id: uuid(),
   };
   const [textEditorVisible, settextEditorVisible] = useState(false);
   const [initalInput, setInitialInput] = useState(initalFormValues);

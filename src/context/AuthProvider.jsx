@@ -9,7 +9,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [authUser, dispatchAuth] = useReducer(authReuder, {
-    auth_loading: "",
+    auth_loading: false,
     user: "",
     token: "",
   });
@@ -39,6 +39,12 @@ const AuthProvider = ({ children }) => {
         data: { foundUser, encodedToken },
         status,
       } = await userLoginApi(user);
+
+      dispatchAuth({
+        type: AUTH_LOADING,
+        payload: false,
+      });
+
       if (status === 200) {
         localStorage.setItem(
           "user_note",
@@ -57,12 +63,13 @@ const AuthProvider = ({ children }) => {
           payload: encodedToken,
         });
       }
+
+      navigate("/");
+    } catch (error) {
       dispatchAuth({
         type: AUTH_LOADING,
         payload: false,
       });
-      navigate("/");
-    } catch (error) {
       console.log("error while signin", error);
     }
   };
@@ -76,7 +83,7 @@ const AuthProvider = ({ children }) => {
       const {
         data: { foundUser, encodedToken },
       } = await userSignup(user);
-      // console.log("data sign up data is", data);
+      console.log("foundUser", foundUser);
 
       localStorage.setItem(
         "user_note",
@@ -99,6 +106,10 @@ const AuthProvider = ({ children }) => {
         payload: false,
       });
     } catch (error) {
+      dispatchAuth({
+        type: AUTH_LOADING,
+        payload: false,
+      });
       console.log("erro while signup ", error);
     }
   };
