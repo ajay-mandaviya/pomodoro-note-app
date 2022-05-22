@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useContext, useState, useReducer } from "react";
-import { noteReducer } from "../reducer";
+import { filterReducer, noteReducer } from "../reducer";
 
 const NotesContext = createContext();
 
@@ -22,7 +22,11 @@ const NoteProvider = ({ children }) => {
     trash: [],
     isColorPalleteVisible: false,
   });
-
+  const [filter, filterDispatch] = useReducer(filterReducer, {
+    filterByDate: "",
+    filterByPriority: "",
+    filterNoteCategory: [],
+  });
   return (
     <NotesContext.Provider
       value={{
@@ -35,6 +39,8 @@ const NoteProvider = ({ children }) => {
         isNoteEditing,
         setIsNoteEditing,
         initalFormValues,
+        filterDispatch,
+        filter,
       }}
     >
       {children}

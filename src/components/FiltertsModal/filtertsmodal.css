@@ -1,0 +1,25 @@
+.filterts-modal {
+  /* background-color: red; */
+  padding: 0.2rem 0.5rem;
+  border: 2px solid lightblue;
+  z-index: 10;
+  position: absolute;
+  top: 4rem;
+}
+
+.filterts-modal p {
+  margin: 0.3rem 0;
+}
+.filterts-modal hr {
+  margin: 0.2rem 0;
+}
+.clear-filter {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.filterts-modal label {
+  display: block;
+  font-size: 0.9rem;
+}

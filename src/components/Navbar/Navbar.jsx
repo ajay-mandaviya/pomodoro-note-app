@@ -1,15 +1,36 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth, useNotes } from "../../context";
+import FiltertsModal from "../FiltertsModal/FiltertsModal";
 import "./navbar.css";
+
 const Navbar = () => {
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const location = useLocation();
+  const filterModalRef = useRef();
+  useEffect(() => {
+    const handleOutSideClick = (e) => {
+      if (
+        isFilterModalVisible &&
+        filterModalRef?.current &&
+        !filterModalRef?.current?.contains(e.target)
+      ) {
+        setIsFilterModalVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutSideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutSideClick);
+    };
+  }, [isFilterModalVisible]);
+
   const {
     authUser: { token },
   } = useAuth();
   const { settextEditorVisible, setIsNoteEditing } = useNotes();
   const navigate = useNavigate();
   return (
-    <div className="navbar">
+    <div className="navbar" ref={filterModalRef}>
       <div className="nav-logo">
         <Link to={"/"} className="nav-title">
           <h2>Note App</h2>
@@ -18,7 +39,7 @@ const Navbar = () => {
           <h3 className="nav-page">Notes</h3>
         </Link>
       </div>
-      <div>
+      <div className="nabar-search">
         <input
           type="text"
           placeholder="Search"
@@ -26,39 +47,28 @@ const Navbar = () => {
           onChange={() => {}}
         />
       </div>
-      <div className="btns">
-        <button onClick={() => {}} className="filter-btn">
-          <i className="fa fa-filter"></i>
-        </button>
-        <button
-          onClick={() => {
-            settextEditorVisible(true);
-            setIsNoteEditing(true);
-          }}
-          className="more-btn"
-        >
-          <i className="fa-solid fa-plus"></i> Add Note
-        </button>
-        {/* {!token ? (
+      {location.pathname === "/notes" ? (
+        <div className="btns">
           <button
-            className="login-btn"
             onClick={() => {
-              handleLogout();
+              setIsFilterModalVisible(!isFilterModalVisible);
             }}
+            className="filter-btn"
           >
-            Logout
+            <i className="fa fa-filter"></i>
           </button>
-        ) : (
+          {isFilterModalVisible && <FiltertsModal />}
           <button
-            className="login-btn"
             onClick={() => {
-              navigate("/login");
+              settextEditorVisible(true);
+              setIsNoteEditing(true);
             }}
+            className="more-btn"
           >
-            Login
+            <i className="fa-solid fa-plus"></i> Add Note
           </button>
-        )} */}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 };
