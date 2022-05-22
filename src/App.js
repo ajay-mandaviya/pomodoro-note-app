@@ -5,8 +5,9 @@ import "./App.css";
 import { Navbar, Sidebar } from "./components";
 import { useAuth, useNotes } from "./context";
 import { Archive, Home, Label, Login, Notes, Signup, Trash } from "./page";
+import { getUserTranshNotes } from "./services";
 import { getUserNotes } from "./services/notes";
-
+import Mockman from "mockman-js";
 function App() {
   const {
     authUser: { token },
@@ -16,6 +17,7 @@ function App() {
   useEffect(() => {
     if (token) {
       getUserNotes(token, dispatchNote);
+      getUserTranshNotes(token, dispatchNote);
     }
   }, [token]);
 
@@ -38,6 +40,7 @@ function App() {
         <div className="app-wrapper">
           <Sidebar />
           <Routes>
+            <Route path="/mockman" element={<Mockman />} />
             <Route path="/" element={<Home />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/signup" element={<Signup />} />

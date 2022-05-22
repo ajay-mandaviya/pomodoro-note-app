@@ -1,3 +1,11 @@
 import { AuthProvider, useAuth } from "./AuthProvider";
 import NoteProvider, { useNotes } from "./NoteProvider";
-export { AuthProvider, useAuth, NoteProvider, useNotes };
+import TranshProvider, { useTransh } from "./TranshProvider";
+export {
+  AuthProvider,
+  useAuth,
+  NoteProvider,
+  useNotes,
+  TranshProvider,
+  useTransh,
+};

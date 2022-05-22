@@ -5,7 +5,7 @@ import App from "./App";
 import { makeServer } from "./server";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
-import { NoteProvider } from "./context";
+import { NoteProvider, TranshProvider } from "./context";
 
 // Call make Server
 makeServer();
@@ -15,7 +15,9 @@ ReactDOM.render(
     <Router>
       <AuthProvider>
         <NoteProvider>
-          <App />
+          <TranshProvider>
+            <App />
+          </TranshProvider>
         </NoteProvider>
       </AuthProvider>
     </Router>
