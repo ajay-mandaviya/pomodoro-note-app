@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { TOGGLE_COLOR_PALLETE } from "../../constant/actionTypes";
-import { useAuth, useNotes } from "../../context";
+import { useArchive, useAuth, useNotes } from "../../context";
 import { addNotes, editNotes } from "../../services/notes";
 import { isArrayExits } from "../../utils/arrayMethod";
 import ColorPallete from "../ColorPallete/ColorPallete";
@@ -12,6 +12,7 @@ import "./modalTextEditor.css";
 const ModalTextEditor = () => {
   const [paleteVisible, setPaleteVisible] = useState(false);
   const [priorityVisible, setPriorityVisible] = useState(false);
+  const { editArchive } = useArchive();
   const {
     authUser: { token },
   } = useAuth();
@@ -24,27 +25,45 @@ const ModalTextEditor = () => {
     initalFormValues,
     setIsNoteEditing,
     settextEditorVisible,
-    noteState: { notes },
+    noteState: { notes, archives },
   } = useNotes();
 
+  const isNoteExits = isArrayExits(notes, initalInput._id);
+  const isInArchive = isArrayExits(archives, initalInput._id);
   // add to note
+
+  console.log("isInArchive in modal", isInArchive);
 
   const handleAddToNote = (e) => {
     e.preventDefault();
-    initalInput["createdTime"] = new Date().toLocaleString();
-    addNotes(initalInput, token, dispatchNote, (status) => {
-      if (status === 201 || 200) {
-        settextEditorVisible(false);
-        setInitialInput(initalFormValues);
-        setIsNoteEditing(false);
-      }
-    });
+
+    if (token) {
+      initalInput["createdTime"] = new Date().toLocaleString();
+      addNotes(initalInput, token, dispatchNote, (status) => {
+        if (status === 201 || 200) {
+          settextEditorVisible(false);
+          setInitialInput(initalFormValues);
+          setIsNoteEditing(false);
+        }
+      });
+    } else {
+      toast.error("Please Loggin to add Note");
+    }
   };
 
   // edit note api
   const handleEditNote = (e) => {
     e.preventDefault();
-    if (isNoteEditing) {
+    if (isNoteEditing && isInArchive) {
+      initalInput["createdTime"] = new Date().toLocaleString();
+      editArchive(initalInput, (status) => {
+        if (status === 201 || 200) {
+          settextEditorVisible(false);
+          setInitialInput(initalFormValues);
+          setIsNoteEditing(false);
+        }
+      });
+    } else {
       initalInput["createdTime"] = new Date().toLocaleString();
       editNotes(token, initalInput, dispatchNote, (status) => {
         if (status === 201 || 200) {
@@ -56,9 +75,6 @@ const ModalTextEditor = () => {
       });
     }
   };
-
-  const isNoteExits = isArrayExits(notes, initalInput._id);
-  console.log("isNoteExits", isNoteExits);
 
   return (
     <>
@@ -130,7 +146,7 @@ const ModalTextEditor = () => {
                 >
                   Cancel
                 </button>
-                {isNoteExits ? (
+                {isNoteExits || isInArchive ? (
                   <button type="submit" onClick={handleEditNote}>
                     Save
                   </button>

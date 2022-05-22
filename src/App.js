@@ -5,7 +5,7 @@ import "./App.css";
 import { Navbar, Sidebar } from "./components";
 import { useAuth, useNotes } from "./context";
 import { Archive, Home, Label, Login, Notes, Signup, Trash } from "./page";
-import { getUserTranshNotes } from "./services";
+import { archivesNotesApi, getUserTranshNotes } from "./services";
 import { getUserNotes } from "./services/notes";
 import Mockman from "mockman-js";
 function App() {
@@ -18,6 +18,7 @@ function App() {
     if (token) {
       getUserNotes(token, dispatchNote);
       getUserTranshNotes(token, dispatchNote);
+      archivesNotesApi(token, dispatchNote);
     }
   }, [token]);
 

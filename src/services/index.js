@@ -7,6 +7,13 @@ import {
   resoreTranshNoteApi,
 } from "./trash";
 
+import {
+  archiveToTrashApi,
+  archivesNotesApi,
+  addArchiveNoteAPI,
+  restoreArchiveNoteApi,
+  editArchiveNoteApi,
+} from "./archive";
 export {
   userLoginApi,
   userSignup,
@@ -14,4 +21,9 @@ export {
   getUserTranshNotes,
   resoreTranshNoteApi,
   deleteTranshNoteApi,
+  archiveToTrashApi,
+  addArchiveNoteAPI,
+  archivesNotesApi,
+  restoreArchiveNoteApi,
+  editArchiveNoteApi,
 };
