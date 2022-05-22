@@ -6,6 +6,7 @@ import "./navbar.css";
 
 const Navbar = () => {
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
   const location = useLocation();
   const filterModalRef = useRef();
   useEffect(() => {
@@ -33,7 +34,7 @@ const Navbar = () => {
     <div className="navbar" ref={filterModalRef}>
       <div className="nav-logo">
         <Link to={"/"} className="nav-title">
-          <h2>Note App</h2>
+          <h2>My Notes</h2>
         </Link>
         <Link to={"/notes"}>
           <h3 className="nav-page">Notes</h3>
@@ -43,8 +44,8 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search"
-          value={""}
-          onChange={() => {}}
+          value={searchVal}
+          onChange={(e) => setSearchVal(e.target.value)}
         />
       </div>
       {location.pathname === "/notes" ? (

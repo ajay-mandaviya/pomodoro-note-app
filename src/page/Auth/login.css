@@ -66,9 +66,21 @@
   outline: none;
   color: white;
   cursor: pointer;
+  margin-bottom: 0.75rem;
 }
 .inputx-field input[type="submit"]:hover {
   background-color: #330033;
+}
+.guest-btn {
+  width: 100%;
+  background-color: blue;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  border-radius: 1rem;
+  padding: 0.5rem;
 }
 
 .remember {

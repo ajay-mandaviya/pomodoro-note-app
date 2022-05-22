@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context";
 
 import "./login.css";
@@ -28,8 +29,14 @@ const Login = () => {
       alert("inputs can't be empty");
       return;
     }
-
     handleSignIn(user);
+  };
+
+  const handleGuestLogin = () => {
+    handleSignIn({
+      email: "adarshbalika@gmail.com",
+      password: "adarshBalika123",
+    });
   };
 
   return (
@@ -70,10 +77,20 @@ const Login = () => {
                 type="submit"
                 value={auth_loading ? "Loging In.." : "Sign In"}
               />
+              <button
+                type="button"
+                onClick={handleGuestLogin}
+                className="guest-btn"
+              >
+                Guest Login
+              </button>
             </div>
             <div className="inputx-field">
               <p>
-                Don't Have Account <span>Sign up</span>
+                Don't Have Account
+                <strong>
+                  <Link to={"/signup"}>Sign up</Link>
+                </strong>
               </p>
             </div>
           </form>

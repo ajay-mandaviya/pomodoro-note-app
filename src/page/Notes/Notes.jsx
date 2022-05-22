@@ -15,9 +15,6 @@ const Notes = () => {
     filter: { filterByDate, filterByPriority, filterNoteCategory },
   } = useNotes();
 
-  console.log("filterNoteCategory", filterByPriority);
-
-  console.log("notes", notes);
   const filterNotes = () => {
     let sortNotes = notes;
 

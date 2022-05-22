@@ -32,8 +32,6 @@ const ModalTextEditor = () => {
   const isInArchive = isArrayExits(archives, initalInput._id);
   // add to note
 
-  console.log("isInArchive in modal", isInArchive);
-
   const handleAddToNote = (e) => {
     e.preventDefault();
 
@@ -119,7 +117,6 @@ const ModalTextEditor = () => {
                   role={"button"}
                   className="fa-solid fa-palette"
                   onClick={() => {
-                    console.log("open note palate color");
                     setPriorityVisible(false);
                     setPaleteVisible(!paleteVisible);
                   }}

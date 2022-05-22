@@ -5,7 +5,10 @@ import { useAuth } from "../../context";
 import "./login.css";
 
 const Signup = () => {
-  const { authUser : {auth_loading} ,   signupWithUser } = useAuth();
+  const {
+    authUser: { auth_loading },
+    signupWithUser,
+  } = useAuth();
   const [user, setUsr] = useState({
     name: "",
     email: "",
@@ -68,11 +71,17 @@ const Signup = () => {
               </label>
             </div>
             <div className="inputx-field">
-              <input type="submit" value={auth_loading ?  "Creating..."   : "Sign In"} />
+              <input
+                type="submit"
+                value={auth_loading ? "Creating..." : "Sign In"}
+              />
             </div>
             <div className="inputx-field">
               <p>
-                Don't Have Account <span>Sign up</span>
+                Have Account{" "}
+                <strong>
+                  <Link to={"/login"}>Login up</Link>
+                </strong>
               </p>
             </div>
           </form>
