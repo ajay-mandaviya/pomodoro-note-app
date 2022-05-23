@@ -2,7 +2,7 @@
 
 Application Link
 
-[My Notes]()
+[My Notes](https://quick-notes-reactapp.netlify.app/)
 
 # Built with
 
