@@ -1,7 +1,8 @@
 import React from "react";
 import toast from "react-hot-toast";
-import { useAuth, useNotes } from "../../context";
+import { useArchive, useAuth, useNotes } from "../../context";
 import { editNotes } from "../../services/notes";
+import { isArrayExits } from "../../utils/arrayMethod";
 import "./priorityfield.css";
 const PriorityField = ({ note, priorityRef }) => {
   const {
@@ -10,10 +11,13 @@ const PriorityField = ({ note, priorityRef }) => {
     isNoteEditing,
     dispatchNote,
     setIsNoteEditing,
+    noteState: { archives },
   } = useNotes();
   const {
     authUser: { token },
   } = useAuth();
+  const { editArchive } = useArchive();
+  const isInArchive = isArrayExits(archives, note?._id);
   const handlePriority = (value) => {
     if (isNoteEditing) {
       setInitialInput({
@@ -26,12 +30,20 @@ const PriorityField = ({ note, priorityRef }) => {
         priority: value,
         createdTime: new Date().toLocaleString(),
       };
-      editNotes(token, newNotes, dispatchNote, (status) => {
-        if (status === 201 || 200) {
-          setIsNoteEditing(false);
-          toast.success("Priority update successfully");
-        }
-      });
+      if (isInArchive) {
+        editArchive(newNotes, (status) => {
+          if (status === 201 || 200) {
+            setIsNoteEditing(false);
+          }
+        });
+      } else {
+        editNotes(token, newNotes, dispatchNote, (status) => {
+          if (status === 201 || 200) {
+            setIsNoteEditing(false);
+            toast.success("Priority update successfully");
+          }
+        });
+      }
     }
   };
   return (

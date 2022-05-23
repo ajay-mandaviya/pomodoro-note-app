@@ -1,13 +1,22 @@
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Navbar, Sidebar } from "./components";
 import { useAuth, useNotes } from "./context";
-import { Archive, Home, Label, Login, Notes, Signup, Trash } from "./page";
+import {
+  Archive,
+  Home,
+  Label,
+  Login,
+  Notes,
+  PrivateRoute,
+  Signup,
+  Trash,
+} from "./page";
 import { archivesNotesApi, getUserTranshNotes } from "./services";
 import { getUserNotes } from "./services/notes";
-import Mockman from "mockman-js";
+
 function App() {
   const {
     authUser: { token },
@@ -36,21 +45,56 @@ function App() {
           },
         }}
       />
+
       <div className="app">
-        <Navbar />
-        <div className="app-wrapper">
-          <Sidebar />
-          <Routes>
-            <Route path="/mockman" element={<Mockman />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/notes" element={<Notes />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/trash" element={<Trash />} />
-            <Route path="/label" element={<Label />} />
-          </Routes>
-        </div>
+        {!token ? (
+          <>
+            <Routes>
+              <Route path="/" element={<Login />} />
+            </Routes>
+          </>
+        ) : (
+          <>
+            <Navbar />
+            <div className="app-wrapper">
+              <Sidebar />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PrivateRoute>
+                      <Notes />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/archive"
+                  element={
+                    <PrivateRoute>
+                      <Archive />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/trash"
+                  element={
+                    <PrivateRoute>
+                      <Trash />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/label"
+                  element={
+                    <PrivateRoute>
+                      <Label />
+                    </PrivateRoute>
+                  }
+                />
+              </Routes>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

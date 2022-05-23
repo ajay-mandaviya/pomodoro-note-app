@@ -38,7 +38,6 @@ const Login = () => {
       password: "adarshBalika123",
     });
   };
-
   return (
     <div className="login-container">
       <div className="img-box">
@@ -84,14 +83,6 @@ const Login = () => {
               >
                 Guest Login
               </button>
-            </div>
-            <div className="inputx-field">
-              <p>
-                Don't Have Account
-                <strong>
-                  <Link to={"/signup"}>Sign up</Link>
-                </strong>
-              </p>
             </div>
           </form>
         </div>

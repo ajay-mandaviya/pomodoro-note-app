@@ -73,14 +73,14 @@ const Signup = () => {
             <div className="inputx-field">
               <input
                 type="submit"
-                value={auth_loading ? "Creating..." : "Sign In"}
+                value={auth_loading ? "Creating..." : "Sign Up"}
               />
             </div>
             <div className="inputx-field">
               <p>
                 Have Account{" "}
                 <strong>
-                  <Link to={"/login"}>Login up</Link>
+                  <Link to={"/"}>Login up</Link>
                 </strong>
               </p>
             </div>
